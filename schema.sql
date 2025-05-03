@@ -1,3 +1,7 @@
+-- Create the database
+CREATE DATABASE IF NOT EXISTS esoteric_library;
+USE esoteric_library;
+
 -- Create users table
 CREATE TABLE users (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
