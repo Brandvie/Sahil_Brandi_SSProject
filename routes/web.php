@@ -17,10 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    // Redirect to books index page or show a welcome page
-    // For now, let's redirect to books index
-    return redirect()->route('books.index');
-});
+    return view('welcome');
+})->name('home');
 
 // Resourceful routes for Books, Categories, and Authors
 Route::resource('books', BookController::class);
