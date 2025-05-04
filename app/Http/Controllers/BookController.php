@@ -38,26 +38,24 @@ class BookController extends Controller
     {
         $request->validate([
             "title" => "required|string|max:255",
-            "author_id" => "required|exists:authors,id",
+            "author_name" => "required|string|max:255", // Validate author name
             "category_id" => "required|exists:categories,id",
             "isbn" => "nullable|string|max:20|unique:books,isbn",
             "description" => "nullable|string",
             "publication_year" => "nullable|integer|min:1000|max:" . date("Y"),
-            // Add validation for image upload if implemented later
-            // "cover_image_path" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
             "esoteric_keywords" => "nullable|string",
             "spiritual_focus" => "nullable|string|max:255",
             "manifestation_techniques" => "nullable|string",
         ]);
 
-        // Handle file upload if implemented
-        // $path = null;
-        // if ($request->hasFile("cover_image_path")) {
-        //     $path = $request->file("cover_image_path")->store("covers", "public");
-        // }
+        // Find or create the author by name
+        $author = Author::firstOrCreate([
+            'name' => $request->input('author_name')
+        ]);
 
-        $bookData = $request->all();
-        // $bookData["cover_image_path"] = $path;
+        // Create the book with the author_id
+        $bookData = $request->except('author_name');
+        $bookData['author_id'] = $author->id;
 
         Book::create($bookData);
 
@@ -92,21 +90,24 @@ class BookController extends Controller
     {
         $request->validate([
             "title" => "required|string|max:255",
-            "author_id" => "required|exists:authors,id",
+            "author_name" => "required|string|max:255", // Validate author name
             "category_id" => "required|exists:categories,id",
             "isbn" => "nullable|string|max:20|unique:books,isbn," . $book->id,
             "description" => "nullable|string",
             "publication_year" => "nullable|integer|min:1000|max:" . date("Y"),
-            // Add validation for image upload if implemented later
             "esoteric_keywords" => "nullable|string",
             "spiritual_focus" => "nullable|string|max:255",
             "manifestation_techniques" => "nullable|string",
         ]);
 
-        // Handle file upload update if implemented
+        // Find or create the author by name
+        $author = Author::firstOrCreate([
+            'name' => $request->input('author_name')
+        ]);
 
-        $bookData = $request->all();
-        // Update path logic here if image upload is added
+        // Update the book with the new author_id
+        $bookData = $request->except('author_name');
+        $bookData['author_id'] = $author->id;
 
         $book->update($bookData);
 

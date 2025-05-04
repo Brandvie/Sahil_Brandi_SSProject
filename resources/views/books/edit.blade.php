@@ -20,14 +20,9 @@
 
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="author_id" class="form-label">Author</label>
-                    <select class="form-select @error("author_id") is-invalid @enderror" id="author_id" name="author_id" required>
-                        <option value="" disabled>Select an Author</option>
-                        @foreach($authors as $author)
-                            <option value="{{ $author->id }}" {{ old("author_id", $book->author_id) == $author->id ? "selected" : "" }}>{{ $author->name }}</option>
-                        @endforeach
-                    </select>
-                    @error("author_id")
+                    <label for="author_name" class="form-label">Author</label>
+                    <input type="text" class="form-control @error('author_name') is-invalid @enderror" id="author_name" name="author_name" value="{{ old('author_name', $book->author->name) }}" required>
+                    @error('author_name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
