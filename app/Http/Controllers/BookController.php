@@ -27,8 +27,7 @@ class BookController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get(); // Fetch all categories
-        $authors = Author::orderBy("name")->get();
-        return view("books.create", compact("categories", "authors"));
+        return view('books.create', compact('categories'));
     }
 
     /**
@@ -38,7 +37,7 @@ class BookController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'author_name' => 'required|string|max:255', // Validate author name
+            'author_name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'isbn' => 'nullable|string|max:20|unique:books,isbn',
             'description' => 'nullable|string',
@@ -46,17 +45,22 @@ class BookController extends Controller
             'esoteric_keywords' => 'nullable|string',
             'spiritual_focus' => 'nullable|string|max:255',
             'manifestation_techniques' => 'nullable|string',
+            'cover_image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
         ]);
+
+        // Handle file upload
+        $coverImagePath = null;
+        if ($request->hasFile('cover_image_path')) {
+            $coverImagePath = $request->file('cover_image_path')->store('book_covers', 'public');
+        }
 
         // Find or create the author
         $author = Author::firstOrCreate(['name' => $request->input('author_name')]);
 
         // Prepare book data
-        $bookData = $request->except('author_name');
-        $bookData['author_id'] = $author->id; // Assign the author_id
-
-        // Debugging: Check the data being inserted
-        dd($bookData);
+        $bookData = $request->except('author_name', 'cover_image_path');
+        $bookData['author_id'] = $author->id;
+        $bookData['cover_image_path'] = $coverImagePath;
 
         // Create the book
         Book::create($bookData);
@@ -166,6 +170,9 @@ class CreateBooksTable extends Migration
             $table->text('manifestation_techniques')->nullable();
             $table->timestamps();
         });
+
+        // Describe the books table
+        DB::statement('DESCRIBE books;');
     }
 
     /**
