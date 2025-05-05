@@ -15,18 +15,7 @@ class Book extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'title',
-        'author_id',
-        'category_id',
-        'isbn',
-        'description',
-        'publication_year',
-        'cover_image_path',
-        'esoteric_keywords',
-        'spiritual_focus',
-        'manifestation_techniques',
-    ];
+    protected $fillable = ['title', 'author', 'category_id'];
 
     /**
      * Get the category that owns the book.
