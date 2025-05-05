@@ -30,7 +30,9 @@
                     <select class="form-select @error("category_id") is-invalid @enderror" id="category_id" name="category_id" required>
                         <option value="" disabled selected>Select a Category</option>
                         @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ old("category_id") == $category->id ? "selected" : "" }}>{{ $category->name }}</option>
+                            @if(in_array($category->name, ['Spiritual', 'Manifestation', 'Meditation', 'Consciousness']))
+                                <option value="{{ $category->id }}" {{ old("category_id") == $category->id ? "selected" : "" }}>{{ $category->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                     @error("category_id")

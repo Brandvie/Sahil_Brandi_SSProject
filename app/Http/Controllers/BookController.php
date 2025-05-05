@@ -26,7 +26,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        $categories = Category::orderBy("name")->get();
+        $categories = Category::orderBy('name')->get(); // Fetch all categories
         $authors = Author::orderBy("name")->get();
         return view("books.create", compact("categories", "authors"));
     }

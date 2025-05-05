@@ -84,6 +84,22 @@ class CategorySeeder extends Seeder
                 'name' => 'Esoteric Philosophy',
                 'description' => 'Philosophical traditions concerned with hidden or secret knowledge.',
             ],
+            [
+                'name' => 'Spiritual',
+                'description' => 'Books focusing on spiritual growth and practices.',
+            ],
+            [
+                'name' => 'Manifestation',
+                'description' => 'Books about manifestation techniques and the law of attraction.',
+            ],
+            [
+                'name' => 'Meditation',
+                'description' => 'Books on mindfulness and meditation practices.',
+            ],
+            [
+                'name' => 'Self-Improvement',
+                'description' => 'Books aimed at personal growth and self-improvement.',
+            ],
         ];
 
         // Insert categories into the database
