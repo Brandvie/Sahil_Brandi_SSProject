@@ -37,30 +37,32 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            "title" => "required|string|max:255",
-            "author_name" => "required|string|max:255", // Validate author name
-            "category_id" => "required|exists:categories,id",
-            "isbn" => "nullable|string|max:20|unique:books,isbn",
-            "description" => "nullable|string",
-            "publication_year" => "nullable|integer|min:1000|max:" . date("Y"),
-            "esoteric_keywords" => "nullable|string",
-            "spiritual_focus" => "nullable|string|max:255",
-            "manifestation_techniques" => "nullable|string",
+            'title' => 'required|string|max:255',
+            'author_name' => 'required|string|max:255', // Validate author name
+            'category_id' => 'required|exists:categories,id',
+            'isbn' => 'nullable|string|max:20|unique:books,isbn',
+            'description' => 'nullable|string',
+            'publication_year' => 'nullable|integer|min:1000|max:' . date('Y'),
+            'esoteric_keywords' => 'nullable|string',
+            'spiritual_focus' => 'nullable|string|max:255',
+            'manifestation_techniques' => 'nullable|string',
         ]);
 
-        // Find or create the author by name
-        $author = Author::firstOrCreate([
-            'name' => $request->input('author_name')
-        ]);
+        // Find or create the author
+        $author = Author::firstOrCreate(['name' => $request->input('author_name')]);
 
-        // Create the book with the author_id
+        // Prepare book data
         $bookData = $request->except('author_name');
-        $bookData['author_id'] = $author->id;
+        $bookData['author_id'] = $author->id; // Assign the author_id
 
+        // Debugging: Check the data being inserted
+        dd($bookData);
+
+        // Create the book
         Book::create($bookData);
 
-        return redirect()->route("books.index")
-                         ->with("success", "Book added successfully.");
+        return redirect()->route('books.index')
+                         ->with('success', 'Book added successfully.');
     }
 
     /**
@@ -126,6 +128,52 @@ class BookController extends Controller
 
         return redirect()->route("books.index")
                          ->with("success", "Book deleted successfully.");
+    }
+
+    /**
+     * Example method to demonstrate firstOrCreate functionality.
+     */
+    public function example()
+    {
+        $author = Author::firstOrCreate(['name' => 'Sun Zu']);
+        dd($author);
+    }
+}
+
+// Migration for books table
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateBooksTable extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up()
+    {
+        Schema::create('books', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->foreignId('author_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->string('isbn')->unique()->nullable();
+            $table->text('description')->nullable();
+            $table->integer('publication_year')->nullable();
+            $table->string('cover_image_path')->nullable();
+            $table->text('esoteric_keywords')->nullable();
+            $table->string('spiritual_focus')->nullable();
+            $table->text('manifestation_techniques')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down()
+    {
+        Schema::dropIfExists('books');
     }
 }
 
