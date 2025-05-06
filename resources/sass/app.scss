@@ -1,5 +1,157 @@
-// Import Bootstrap and its default variables
-@import "~bootstrap/scss/bootstrap";
+// Import Bootstrap using @use
+@use "bootstrap" as *;
 
-// Your custom styles can go here
+// Mystical Theme Colors
+$primary-color: #4a148c; // Deep purple
+$secondary-color: #1a237e; // Dark indigo
+$background-color: #0d1117; // Dark background
+$text-color: #ffffff; // Bright white for maximum visibility
+$accent-color: #ff6f61; // Coral for highlights
+
+// Apply Theme Colors
+body {
+    background-color: $background-color;
+    color: $text-color; // Ensure all text uses the bright white color
+    font-family: 'Figtree', sans-serif;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+a {
+    color: $accent-color;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: lighten($accent-color, 20%);
+    text-shadow: 0 0 10px $accent-color;
+}
+
+// Navbar Styling
+.navbar {
+    background-color: $primary-color;
+    border-bottom: 2px solid $secondary-color;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: $accent-color;
+    text-shadow: 0 0 5px $accent-color;
+}
+
+.navbar-nav .nav-link {
+    color: $text-color; // Ensure navbar links are visible
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: $accent-color;
+    text-shadow: 0 0 5px $accent-color;
+}
+
+// Table Styling
+.table {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: $text-color; // Ensure table text is visible
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+// Buttons
+.btn-primary {
+    background-color: $accent-color;
+    border-color: $accent-color;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: lighten($accent-color, 10%);
+    transform: scale(1.05);
+    box-shadow: 0 0 10px $accent-color;
+}
+
+// Footer
+footer {
+    background-color: $primary-color; // Use the deep purple color for the footer
+    color: $text-color; // Ensure footer text is visible
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    padding: 1rem 0;
+    text-align: center;
+    border-top: 2px solid $secondary-color; // Add a subtle border for separation
+}
+
+// Animations
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 0 0 5px $accent-color, 0 0 10px $accent-color, 0 0 20px $accent-color;
+    }
+    50% {
+        text-shadow: 0 0 10px lighten($accent-color, 10%), 0 0 20px lighten($accent-color, 10%), 0 0 30px lighten($accent-color, 10%);
+    }
+    100% {
+        text-shadow: 0 0 5px $accent-color, 0 0 10px $accent-color, 0 0 20px $accent-color;
+    }
+}
+
+// Apply Animations
+h1, h2, h3, h4, h5, h6 {
+    animation: fadeIn 1s ease-in-out;
+    color: $accent-color;
+    text-shadow: 0 0 10px $accent-color;
+}
+
+a:hover {
+    animation: glow 1.5s infinite alternate;
+}
+
+// Cards
+.card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+}
+
+// Inputs
+input, select, textarea {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: $text-color; // Ensure input text is visible
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: $accent-color;
+    box-shadow: 0 0 5px $accent-color;
+}
+
+// Styling for the book details page
+.book-details {
+    color: $text-color; // Ensure text is white
+    background-color: $background-color; // Optional: Ensure the background matches the theme
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
 
