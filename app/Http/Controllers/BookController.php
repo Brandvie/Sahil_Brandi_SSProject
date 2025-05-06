@@ -27,7 +27,7 @@ class BookController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get(); // Fetch all categories
-        return view('books.create', compact('categories'));
+        return view('books.create', compact('categories')); // Ensure this matches the file path
     }
 
     /**
@@ -183,4 +183,9 @@ class CreateBooksTable extends Migration
         Schema::dropIfExists('books');
     }
 }
+
+
+
+
+
 
