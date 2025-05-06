@@ -41,10 +41,5 @@
     </tbody>
 </table>
 
-{{-- Pagination Links --}}
-<div class="d-flex justify-content-center">
-    {{ $categories->links() }}
-</div>
-
 @endsection
 
